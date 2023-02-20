@@ -7,4 +7,4 @@ exports.PORT = exports.HTML_FILES_PATH = exports.STATIC_PATH = void 0;
 const path_1 = __importDefault(require("path"));
 exports.STATIC_PATH = path_1.default.join(__dirname, '..', 'public');
 exports.HTML_FILES_PATH = path_1.default.join(exports.STATIC_PATH, 'html');
-exports.PORT = 3002;
+exports.PORT = process.env.PORT || 3002;
