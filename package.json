@@ -17,8 +17,6 @@
   "author": "Kyrylo Burmelov",
   "license": "ISC",
   "dependencies": {
-    "@types/express": "^4.17.13",
-    "@types/node": "^17.0.8",
     "express": "^4.17.2",
     "socket.io": "^4.4.1"
   }
