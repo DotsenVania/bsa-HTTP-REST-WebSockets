@@ -8,7 +8,7 @@ if (!username) {
 }
 let currentRoom = null;
 
-const socket = io("http://localhost:3002", { query: { username } });
+const socket = io("https://bsa-homework-sockets.herokuapp.com", { query: { username } });
 
 socket.on("SET_ALL_ROOMS", setRooms);
 function setRooms(rooms) {

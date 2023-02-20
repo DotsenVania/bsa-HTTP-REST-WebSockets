@@ -13,7 +13,7 @@ const onClickSubmitButton = () => {
   if (!inputValue) {
     return;
   }
-  const socket = io("http://localhost:3002/login");
+  const socket = io("https://bsa-homework-sockets.herokuapp.com/login");
   socket.on("DATA_SOCKETS", dataSockets);
   function dataSockets(data) {
     if (data.some((socket) => inputValue === socket)) {
