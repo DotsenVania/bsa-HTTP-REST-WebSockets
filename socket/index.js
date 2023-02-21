@@ -34,6 +34,7 @@ exports.default = (io) => {
     const deleteUserFromRoom = (username, roomName) => rooms.map((room) => room.name !== roomName
         ? room
         : Object.assign(Object.assign({}, room), { users: room.users.filter((user) => user.username !== username) }));
+    const deleteRoom = (roomName) => rooms.filter((room) => room.name !== roomName);
     const setStatusGame = (roomName, status) => rooms.map((room) => room.name !== roomName
         ? room
         : Object.assign(Object.assign({}, room), { gameStart: status }));
@@ -133,16 +134,18 @@ exports.default = (io) => {
             if (!room) {
                 return;
             }
-            if (room.users.length <= 0) {
-                console.log("ok");
-                rooms = setStatusGame(roomName, false);
-            }
-            socket.emit("EXIT_DONE");
             socket.broadcast.emit("UPDATE_JOIN", room);
+            socket.emit("EXIT_DONE");
             io.emit("UPDATE_ROOMS", {
                 name: roomName,
                 numberOfUsers: room.users.length,
             });
+            if (room.users.length <= 0) {
+                console.log("ok");
+                rooms = setStatusGame(roomName, false);
+                rooms = deleteRoom(roomName);
+                io.emit('DELETE_ROOM');
+            }
             console.log(room.users.length);
         });
         socket.on("IS_READY", ({ ready, nameRoom }) => {
@@ -212,10 +215,12 @@ exports.default = (io) => {
             if (!roomTwo) {
                 return;
             }
+            console.log(room);
             if (roomTwo.users.length === 0) {
                 rooms = setStatusGame(room === null || room === void 0 ? void 0 : room.name, false);
             }
             const updatedRoom = getRoomByRoomName(room.name);
+            console.log(room);
             if (!updatedRoom) {
                 return;
             }

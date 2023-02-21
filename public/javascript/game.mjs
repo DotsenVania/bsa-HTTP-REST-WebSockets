@@ -1,4 +1,4 @@
-import { appendRoomElement, updateNumberOfUsersInRoom } from "./views/room.mjs";
+import { appendRoomElement, updateNumberOfUsersInRoom, removeRoomElement } from "./views/room.mjs";
 import { appendUserElement } from "./views/user.mjs";
 import { showResultsModal, showMessageModal } from "./views/modal.mjs";
 const username = sessionStorage.getItem("username");
@@ -146,6 +146,10 @@ socket.on("UPDATE_JOIN_PROGRESS", (room) => {
     }
   });
 });
+socket.on('DELETE_ROOM', () => {
+  removeRoomElement(currentRoom.name);
+  currentRoom = null;
+})
 
 socket.on("ERROR_ROOM_JOIN", (message) => {
   showMessageModal({ message });
@@ -156,7 +160,6 @@ socket.on("MAX_JOIN_LIMIT", (message) => {
 });
 
 socket.on("EXIT_DONE", () => {
-  currentRoom = null;
   joinRoomDisplay(false);
 });
 
